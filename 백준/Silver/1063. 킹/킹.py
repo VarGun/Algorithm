@@ -27,18 +27,9 @@ for i in range(7, -1, -1):
     s_r = chr(ord(s_r) + 1)
   s_r = 'A'
 
-
-# print(*arr)
-c_l = []
-# print("------ 시작 ------")
-# print('king : ', king[0], ', ', king[1])
-# print('stone : ', stone[0], ', ', stone[1])
-# print("------ 시작 ------")
-
 def solution(cm):
 
   if(cm == 'R'):
-    # print("R 실행")
     if(king[0] == stone[0] and king[1] + 1 == stone[1]):
       if(stone[1] + 1 > 7):
         return
@@ -52,7 +43,6 @@ def solution(cm):
         king[1] += 1
 
   elif(cm == "L"):
-    # print("L 실행")
     if(king[0] == stone[0] and king[1] - 1 == stone[1]):
       if(stone[1] - 1 < 0):
         return
@@ -66,7 +56,6 @@ def solution(cm):
         king[1] -= 1
         
   elif(cm == "B"):
-    # print("B 실행")
     if(king[0] + 1 == stone[0] and king[1] == stone[1]):
       if(stone[0] + 1 > 7):
         return
@@ -80,7 +69,6 @@ def solution(cm):
         king[0] += 1
         
   elif(cm == 'T'):
-    # print("T 실행")
     if(king[0] - 1 == stone[0] and king[1] == stone[1]):
       if(stone[0] - 1 < 0):
         return
@@ -94,7 +82,6 @@ def solution(cm):
         king[0] -= 1
   
   elif(cm == "RT"):
-    # print("RT 실행")
     if(king[0] - 1 == stone[0] and king[1] + 1 == stone[1]):
       if(stone[0] - 1 < 0 or stone[1] + 1 > 7):
         return
@@ -111,7 +98,6 @@ def solution(cm):
         king[1] += 1
   
   elif(cm == "LT"):
-    # print("LT 실행")
     if(king[0] - 1 == stone[0] and king[1] - 1 == stone[1]):
       if(stone[0] - 1 < 0 or stone[1] - 1 < 0):
         return
@@ -128,7 +114,6 @@ def solution(cm):
         king[1] -= 1
   
   elif(cm == "RB"):
-    # print("RB 실행")
     if(king[0] + 1 == stone[0] and king[1] + 1 == stone[1]):
       if(stone[0] + 1 > 7 or stone[1] + 1 > 7):
         return
@@ -145,7 +130,6 @@ def solution(cm):
         king[1] += 1
     
   elif(cm == "LB"):
-    # print("LB 실행")
     if(king[0] + 1 == stone[0] and king[1] - 1 == stone[1]):
       if(stone[0] + 1 > 7 or stone[1] - 1 < 0):
         return
@@ -161,17 +145,8 @@ def solution(cm):
         king[0] += 1
         king[1] -= 1
     
-  # print('king : ', king[0], ', ', king[1])
-  # print('stone : ', stone[0], ', ', stone[1])
-      
-        
-
 for _ in range(N):
-  # n = input().strip()
   solution(input().strip())
   
-# print(*king)
-# print(*stone)
-
 print(arr[king[0]][king[1]])
 print(arr[stone[0]][stone[1]])
