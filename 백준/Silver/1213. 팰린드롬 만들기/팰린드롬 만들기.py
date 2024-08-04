@@ -12,13 +12,9 @@ def solution(dict, s):
         dict[chr(i)] -= 1
       else:
         return "I'm Sorry Hansoo"
-      for j in range(0, dict[chr(i)] // 2):
-        ans.append(chr(i))
-    else:
-      for j in range(0, dict[chr(i)] // 2):
-        # print('i : ', i)
-        # print('chr(i) : ', chr(i))
-        ans.append(chr(i))
+    for j in range(0, dict[chr(i)] // 2):
+      # print('chr(i) : ', chr(i))
+      ans.append(chr(i))
   
   return ''.join(ans) + odd_str + ''.join(sorted(ans, reverse=True))
   
