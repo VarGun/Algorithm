@@ -3,16 +3,13 @@ input = sys.stdin.readline
 
 def solution(arr):
   cmd = []
-  # arr : [['New'], ['Open'], ['Save'], ['Save', 'As'], ['Save', 'All']]
   for i in range(len(arr)):
-    # print('cmd : ', cmd )
     flag = False
     for j in range(len(arr[i])):
       if(not arr[i][j][0].upper() in cmd):
         cmd.append(arr[i][j][0].upper())
         flag = True
         arr[i][j] = "[" + arr[i][j][0] +  "]" + arr[i][j][1:]
-        # print('i : ', i)
         print(' '.join(arr[i]))
         break
     if(flag):
@@ -36,5 +33,4 @@ if __name__ == "__main__":
   arr = []
   for _ in range(n):
     arr.append(input().rstrip().split())
-  # print(arr)
   solution(arr)
