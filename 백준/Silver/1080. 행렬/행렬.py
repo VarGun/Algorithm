@@ -6,7 +6,7 @@ def solution(n, m, am, bm):
   for i in range(n - 2):
     for j in range(m - 2):
       if(am[i][j] != bm[i][j]):
-        change(i, j)
+        convert(i, j)
         cnt += 1
   if(am != bm):
     print(-1)
@@ -14,15 +14,13 @@ def solution(n, m, am, bm):
     print(cnt)
   return
 
-
-def change(i, j):
+def convert(i, j):
   for x in range(i, i + 3):
     for y in range(j, j + 3):
       if(am[x][y] == 0):
         am[x][y] = 1
       else:
         am[x][y] = 0
-
 
 if __name__ == "__main__":
   n, m = map(int, input().split())
@@ -40,5 +38,4 @@ if __name__ == "__main__":
     for num in line:
       la.append(int(num))
     bm.append(la)
-  
   solution(n, m, am , bm)
