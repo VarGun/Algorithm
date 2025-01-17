@@ -1,5 +1,5 @@
 def dfs(x, y, visited):
-  global cnt_w, cnt_b, gun_w, gun_b, stack, cntcnt
+  global cnt_w, cnt_b, sum_w, sum_b, stack
 
   if(visited[x][y]):
     return
@@ -9,7 +9,6 @@ def dfs(x, y, visited):
     cnt_b += 1
   stack.append([x, y])
   visited[x][y] = True
-  cntcnt += 1
 
   for d in direction:
     if(x + d[0] >= 0 and x + d[0] < m and y + d[1] >= 0 and y + d[1] < n):
@@ -18,10 +17,10 @@ def dfs(x, y, visited):
   stack.pop()
   if(len(stack) == 0):
     if(arr[x][y] == "W"):
-      gun_w += cnt_w * cnt_w
+      sum_w += cnt_w * cnt_w
       cnt_w = 0
     else:
-      gun_b += cnt_b * cnt_b
+      sum_b += cnt_b * cnt_b
       cnt_b = 0
 
   return
@@ -30,9 +29,8 @@ def dfs(x, y, visited):
 if __name__ == "__main__":
   n, m = map(int, input().split())
   stack = []
-  gun_w = 0
-  gun_b = 0
-  cntcnt = 0
+  sum_w = 0
+  sum_b = 0
   arr = []
   for _ in range(m):
     arr.append(list(input()))
@@ -44,5 +42,5 @@ if __name__ == "__main__":
     for j in range(n):
       dfs(i, j, visited)
   
-  print(gun_w)
-  print(gun_b)
+  print(sum_w)
+  print(sum_b)
