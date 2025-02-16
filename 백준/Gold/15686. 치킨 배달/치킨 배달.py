@@ -8,8 +8,6 @@ def combi(arr, r, s = 0, comb = []):
   for i in range(s, len(arr)):
     combi(arr, r, i + 1, comb + [arr[i]])
 
-
-
 if __name__ == "__main__":
   h = []
   c = []
