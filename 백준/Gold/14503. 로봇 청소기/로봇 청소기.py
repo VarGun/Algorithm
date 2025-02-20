@@ -21,15 +21,14 @@ def clean(x, y):
       cnt += 1
       arr[x][y] = 2
     flag = True
-    for _ in range(4):
+    for _ in range(4): # 반시계 방향으로 90 회전한다.
       d = (d - 1) % 4
       nx = x + drt[d][0]
       ny = y + drt[d][1]
       if(arr[nx][ny] == 0):
-        x, y = nx, ny
+        x, y = nx, ny # 바라보는 방향을 기준으로 앞쪽 칸이 청소되지 않은 빈 칸인 경우 한 칸 전진한다.
         flag = False
         break
-
           
     if(flag): # 2. 현재 칸의 주변 4 칸 중 청소되지 않은 빈 칸이 없는 경우
       back_d = [-1 * drt[d][0], -1 * drt[d][1]] # 반대 방향
@@ -38,12 +37,9 @@ def clean(x, y):
       if(arr[back_x][back_y] == 1): # 2. 바라보는 방향의 뒤쪽 칸이 벽이라 후진할 수 없다면 작동을 멈춘다.
         end = True
         break
-      else:
+      else: # 바라보는 방향을 유지한 채로 한 칸 후진할 수 있다면 한 칸 후진하고 1번으로 돌아간다.
         x = x + (-1) * (drt[d][0])
         y = y + (-1) * (drt[d][1])
-    
-    if(end):
-      break
 
 clean(sx, sy)
 
