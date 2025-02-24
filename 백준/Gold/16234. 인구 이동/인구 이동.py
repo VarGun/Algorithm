@@ -40,20 +40,20 @@ while True:
 
   visited = [[False for _ in range(n)]for _ in range(n)]
 
-  gun = False
+  cnt_flag = False
   cnt = 0 # 그래프 수
-  gugu = [[] for _ in range(n * n)]
+  graph_list = [[] for _ in range(n * n)]
 
   def dfs(i, j):
-    global gun, cnt, q
+    global cnt_flag, cnt, q
     if(visited[i][j] == True or len(graph[i][j]) == 0):
       return
     visited[i][j] = True
     
-    if(gun == False):
-      gun = True
+    if(cnt_flag == False):
+      cnt_flag = True
     else:
-      gugu[cnt].append([i, j])
+      graph_list[cnt].append([i, j])
 
 
     for node in graph[i][j]:
@@ -64,17 +64,17 @@ while True:
   for i in range(n):
     for j in range(n):
       if(visited[i][j] == False and len(graph[i][j]) != 0):
-        gun = False
+        cnt_flag = False
         cnt += 1
-        gugu[cnt].append([i, j])
+        graph_list[cnt].append([i, j])
       dfs(i, j)
 
   for i in range(1, cnt + 1):
     sum = 0
-    for node in gugu[i]:
+    for node in graph_list[i]:
       sum += arr[node[0]][node[1]]
-    new_value = math.floor(sum / len(gugu[i]))
-    for node in gugu[i]:
+    new_value = math.floor(sum / len(graph_list[i]))
+    for node in graph_list[i]:
       arr[node[0]][node[1]] = new_value
 
   ans += 1
