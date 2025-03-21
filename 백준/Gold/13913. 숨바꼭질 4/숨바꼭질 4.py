@@ -1,5 +1,4 @@
 from collections import deque
-
 n, k = map(int, input().split())
 
 _max = 10 ** 6
@@ -24,7 +23,7 @@ def bfs(num):
       return
     next = [head - 1, head + 1, head * 2]
     for i in next:
-      if(0<= i <= _max and visited[i] == 0):
+      if(0 <= i <= _max and visited[i] == 0):
         q.append(i)
         visited[i] = visited[head] + 1
         parent[i] = head
