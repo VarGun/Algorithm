@@ -13,7 +13,14 @@ def rotate(l):
   for i in range(len(l)):
     n_list[i] = l[i - 1]
 
-  return n_list 
+  return n_list
+
+def durability(head):
+  global arr, z_cnt
+  arr[head + 2] -= 1
+  if(arr[head + 2] == 0):
+    z_cnt += 1
+
 
 r_q = deque() # 로봇 담을 큐
 
@@ -37,21 +44,15 @@ while(True):
     # 이동할 수 있음 = 앞에 로봇이 없음 + 이동할 칸의 내구도가 0 보다 큼
     if(arr[head + 2] > 0): # 이동할 수 있음
       if(head + 2 == n - 1): # 이동하면 끝 값임
-        arr[head + 2] -= 1
-        if(arr[head + 2] == 0):
-          z_cnt += 1
+        durability(head)
         continue
       if(len(n_q) == 0):
         n_q.append(head + 2) # 로봇 이동
-        arr[head + 2] -= 1
-        if(arr[head + 2] == 0):
-          z_cnt += 1
+        durability(head)
       else:
         if(n_q[- 1] != head + 2):
           n_q.append(head + 2) # 로봇 이동
-          arr[head + 2] -= 1
-          if(arr[head + 2] == 0):
-            z_cnt += 1
+          durability(head)
         else:
           n_q.append(head + 1)
 
