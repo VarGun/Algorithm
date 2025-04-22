@@ -37,7 +37,7 @@ def rotate(start, end):
 
 
 while(start[0] < end[0] and start[1] < end[1]):
-  size = (end[0] + 1 - start[0]) + (end[1] + 1 - start[1] - 1) + (end[0] + 1 - start[0] - 1) + (end[1] + 1 - start[1] - 2)
+  size = ((end[0] + end[1]) - (start[0] + start[1])) * 2
 
   rotate_cnt = r % size
   for _ in range(rotate_cnt):
