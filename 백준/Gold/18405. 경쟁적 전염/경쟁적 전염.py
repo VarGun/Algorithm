@@ -38,6 +38,9 @@ while s:
       nx = head[1] + dx[i]
       if (0 <= ny < n and 0 <= nx < n and board[ny][nx] == 0):
         q.append([ny, nx])
+        if (ny == tar_x - 1 and nx == tar_y - 1):
+          print(board[head[0]][head[1]])
+          exit()
         board[ny][nx] = board[head[0]][head[1]]
   s -= 1
 print(board[tar_x - 1][tar_y - 1])
