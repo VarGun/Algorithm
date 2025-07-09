@@ -9,5 +9,5 @@ pn -= 1
 prev_cnt = current - (2 ** pn)
 idx = k - prev_cnt - 1
 
-bits = f"{idx:0{pn}b}"
+bits = bin(idx)[2:].zfill(pn)
 print(bits.replace('0', '4').replace('1', '7'))
