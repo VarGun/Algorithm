@@ -1,46 +1,43 @@
 from collections import deque
-
 n = int(input())
 arr = []
-_max = 0
-for i in range(n):
+_max = -1
+_min = 101
+for _ in range(n):
   line = list(map(int, input().split()))
-  for j in line:
-    if(j > _max):
-      _max = j
+  if (max(line) > _max):
+    _max = max(line)
+  if (min(line) < _min):
+    _min = min(line)
   arr.append(line)
-
-dx = [1, -1, 0, 0]
+visited = [[False for _ in range(n)] for _ in range(n)]
 dy = [0, 0, 1, -1]
+dx = [1, -1, 0, 0]
 
-def bfs(arr, h, y, x, visited):
+def bfs(y, x, height, visited, arr):
   q = deque()
   q.append([y, x])
-
+  visited[y][x] = True
   while q:
     head = q.popleft()
-    x = head[1]
     y = head[0]
+    x = head[1]
     for i in range(4):
-      nx = x + dx[i]
       ny = y + dy[i]
-
-      if(0 <= nx < n and 0 <= ny < n and arr[ny][nx] > h and visited[ny][nx] == 0):
+      nx = x + dx[i]
+      if (0 <= ny < n and 0 <= nx < n and not visited[ny][nx] and arr[ny][nx] > height):
         q.append([ny, nx])
-        visited[ny][nx] = 1
-      
-  return
+        visited[ny][nx] = True
 
-max_cnt = -1
-
-for height in range(0, _max + 1): # 1 부터 최대값까지 돌기
+max_cnt = 0
+for height in range(0, _max + 1):
   cnt = 0
-  visited = [[0] * n for _ in range(n)]
+  visited = [[False for _ in range(n)] for _ in range(n)]
   for i in range(n):
     for j in range(n):
-      if(arr[i][j] > height and visited[i][j] == 0):
+      if (not visited[i][j] and arr[i][j] > height):
         cnt += 1
-        bfs(arr, height, i, j, visited)
-  if(max_cnt < cnt):
+        bfs(i, j,  height, visited, arr)
+  if (max_cnt < cnt):
     max_cnt = cnt
 print(max_cnt)
