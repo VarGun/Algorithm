@@ -1,10 +1,6 @@
 n = int(input())
-
-D = [0] * 1002
-D[1] = 1
-D[2] = 2
-if(n > 2):
-  for i in range(3, n + 1):
-    D[i] = (D[i - 1] + D[i - 2]) % 10007
-
-print(D[n])
+dp = [0, 1, 2]
+for i in range(2, n):
+  cur = dp[-1] + dp[-2]
+  dp.append(cur)
+print(dp[n] % 10007)
