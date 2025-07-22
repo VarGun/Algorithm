@@ -1,5 +1,3 @@
-base = ['  *  ', ' * * ', '*****']
-
 N = int(input())
 
 arr = [[' ' for _ in range(N * 2 - 1)] for _ in range(N)]
