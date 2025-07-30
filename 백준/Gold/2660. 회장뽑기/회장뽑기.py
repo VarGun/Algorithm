@@ -9,7 +9,7 @@ while True:
   arr[n].append(m)
   arr[m].append(n)
 
-_min = 10e8
+_min = 2500
 min_arr = []
 
 
