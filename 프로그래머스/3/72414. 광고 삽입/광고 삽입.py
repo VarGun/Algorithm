@@ -45,11 +45,11 @@ def solution(play_time, adv_time, logs):
     max_sum = timeline[adv_sec] # 0초 부터 광고 길이 만큼
     max_start = 0
 
-    for i in range(1, play_sec): # s는 'dp[end]-dp[start]'에서 start 역할
-        if (i + adv_sec >= play_sec):
-            end = play_sec
-        else:
-            end = i + adv_sec
+    for i in range(1, play_sec - adv_sec + 1): # s는 'dp[end]-dp[start]'에서 start 역할
+        # if (i + adv_sec >= play_sec):
+        #     end = play_sec
+        # else:
+        end = i + adv_sec
         cur = timeline[end] - timeline[i]  # [s+1, end] 구간합
 
         if cur > max_sum:
