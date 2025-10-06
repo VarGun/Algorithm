@@ -5,7 +5,6 @@ def convert_sec(time): # time / 'HH:MM:SS'
 
 def format_str(num):
     return str(num).zfill(2)
-    
 
 def convert_time(sec): # sec / 6809
     sec_h = str(sec // (60 * 60)).zfill(2)
@@ -22,7 +21,9 @@ def solution(play_time, adv_time, logs):
     
     play_sec = convert_sec(play_time)
     adv_sec = convert_sec(adv_time)
-    if(play_sec == adv_sec ):
+    
+    if(adv_sec == 0 or play_sec <= adv_sec):
+        print('gmglml')
         return answer
     
     timeline = [0 for _ in range(play_sec + 1)] # 각 시간 별 시청 횟수 / 초 단위
@@ -31,31 +32,26 @@ def solution(play_time, adv_time, logs):
         start, end = log.split('-')
         timeline[convert_sec(start)] += 1 # 시작 시간 + 1
         timeline[convert_sec(end)] -= 1 # 끝나는 시간 - 1
+    
     # 이 시점에서 timeline : 각 시간마다 들어오고 나간 시청자 수 총합
     
     for i in range(1, len(timeline)): # 0 부터 시작하면 인덱스 오류
         timeline[i] += timeline[i - 1] # 각 구간 채우기 -> 그 시간대에 보고 있는 시청자 수
     # 이 시점에서 timeline : 그 시간대에 보고 있는 시청자 수
     
-    timeline[0] = 0
-    for i in range(1, len(timeline)):
-        timeline[i] += timeline[i - 1]
+    cur = sum(timeline[0:adv_sec])
+    best_sum = cur
+    best_start = 0
     
-    
-    max_sum = timeline[adv_sec] # 0초 부터 광고 길이 만큼
-    max_start = 0
 
-    for i in range(1, play_sec - adv_sec + 1): # s는 'dp[end]-dp[start]'에서 start 역할
-        # if (i + adv_sec >= play_sec):
-        #     end = play_sec
-        # else:
-        end = i + adv_sec
-        cur = timeline[end] - timeline[i]  # [s+1, end] 구간합
+    for s in range(1, play_sec - adv_sec + 1):
+        
+        # 이전 창의 맨 왼쪽 값을 빼고, 새로 들어오는 맨 오른쪽 값을 더한다
+        cur = cur - timeline[s - 1] + timeline[s + adv_sec - 1]
 
-        if cur > max_sum:
-            max_sum = cur
-            max_start = i + 1
+        # 동률이면 더 이른 시작을 유지해야 하므로 '>'만 사용
+        if cur > best_sum:
+            best_sum = cur
+            best_start = s
 
-    
-    
-    return convert_time(max_start)
+    return convert_time(best_start)
