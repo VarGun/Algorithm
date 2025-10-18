@@ -1,0 +1,4 @@
+select NAME, count(*) as COUNT
+from ANIMAL_INS
+group by NAME having count(*) >= 2 and NAME is not null
+order by NAME
