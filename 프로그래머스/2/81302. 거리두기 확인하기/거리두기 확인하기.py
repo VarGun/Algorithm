@@ -1,5 +1,3 @@
-
-
 # 주변에 있는 사람들 검사
 
 def check_left_top(y, x, place):
@@ -82,61 +80,26 @@ def find_p(y, x, place):
             break
     
     # 대각선 4개
-    lt = check_left_top(y, x, place)
-    lb = check_left_bottom(y, x, place)
-    rt = check_right_top(y, x, place)
-    rb = check_right_bottom(y, x, place)
-    
-    if(lt and lb and rt and rb):
-        return True
-    
-    return False
-    
-    
-    # if(0 < y < 5 and 0 < x < 4):
-    #     for lti in lt:
-    #         p.add(lti)
-    #     for lbi in lb:
-    #         p.add(lbi)
-    #     for rti in rt:
-    #         p.add(rti)
-    #     for rbi in rb:
-    #         p.add(rbi)
-    # elif(y == 0): # 아래만 검사
-    #     for rbi in rb:
-    #         p.add(rbi)
-    #     for lbi in lb:
-    #         p.add(lbi)
-    # elif(y == 4): # 위만 검사
-    #     for lti in lt:
-    #         p.add(lti)
-    #     for rti in rt:
-    #         p.add(rti)
-    # elif(x == 0): # 오른쪽만 검사
-    #     for rti in rt:
-    #         p.add(rti)
-    #     for rbi in rb:
-    #         p.add(rbi)
-    # elif(x == 4): # 왼쪽만 검사
-    #     for lti in lt:
-    #         p.add(lti)
-    #     for lbi in lb:
-    #         p.add(lbi)
-    # return p
 
-
+    if(not check_left_top(y, x, place)):
+        return False
+    if(not check_left_bottom(y, x, place)):
+        return False
+    if(not check_right_top(y, x, place)):
+        return False
+    if(not check_right_bottom(y, x, place)):
+        return False
+    
+    return True
+    
+    
 def is_valid(place):
     for y in range(5):
         for x in range(5):
             if(place[y][x] == 'P'):
                 p = find_p(y, x, place)
-                
-                # print('[y, x] : ', [y, x])
-                # print('p : ', p)
-                # print('---------------------')
                 if(not p):
                     return 0
-    
     return 1
 
 def solution(places):
