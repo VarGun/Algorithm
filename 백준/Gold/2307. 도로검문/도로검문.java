@@ -1,19 +1,18 @@
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 
 public class Main {
 
-  static class Node implements Comparable<Node> { // ✅ 변경 ①
-    int v, c;
-    Node(int v, int c) { this.v = v; this.c = c; }
-    public int compareTo(Node o) { return this.c - o.c; } // ← Comparator 제거하고 내부에서 정렬
-  }
+  static int n, m, res, ans;
+  static int INF = 500000000;
 
-  static int n, m;
-  static int INF = 500000000; // ✅ 변경 ② : 기존 5,000,000 → 500,000,000 (안전한 INF 값)
-  static List<List<Node>> graph; // ✅ 변경 ③ : ArrayList<Node>[] → List<List<Node>> 로 일관성 있게 변경
+  static List<List<Node>> graph;
 
-  static int[] dijkstra(int start, int ignoreU, int ignoreV) {
+  static boolean[] visited;
+
+  public static int[] dijkstra(int start, int n1, int n2) {
     int[] dist = new int[n + 1];
     Arrays.fill(dist, INF);
     dist[start] = 0;
@@ -23,15 +22,16 @@ public class Main {
 
     while (!pq.isEmpty()) {
       Node cur = pq.poll();
-      if (cur.c > dist[cur.v]) continue;
-
+      int now = cur.v;
+      int cost = cur.c;
+      if (cost > dist[now])
+        continue;
       for (Node nxt : graph.get(cur.v)) {
-        // ✅ 변경 ④ : 간선 차단 조건 동일하지만, cur.v 기준으로 처리 (명확한 방향성)
-        if ((cur.v == ignoreU && nxt.v == ignoreV) || (cur.v == ignoreV && nxt.v == ignoreU))
+        if ((nxt.v == n1 && now == n2) || (nxt.v == n2 && now == n1)) {
           continue;
-
-        if (dist[nxt.v] > dist[cur.v] + nxt.c) {
-          dist[nxt.v] = dist[cur.v] + nxt.c;
+        }
+        if (dist[nxt.v] > cost + nxt.c) {
+          dist[nxt.v] = cost + nxt.c;
           pq.offer(new Node(nxt.v, dist[nxt.v]));
         }
       }
@@ -46,45 +46,63 @@ public class Main {
     n = Integer.parseInt(st.nextToken());
     m = Integer.parseInt(st.nextToken());
 
+    int[][] paths = new int[m][3];
     graph = new ArrayList<>();
-    for (int i = 0; i <= n; i++) graph.add(new ArrayList<>()); // ✅ 변경 ⑤ : 리스트 초기화 구조 개선
+    visited = new boolean[n + 1];
 
-    int[][] edges = new int[m][3]; // ✅ 변경 ⑥ : 경로를 int[][] 로 단순화
+    for (int i = 0; i <= n; i++) {
+      graph.add(new ArrayList<>());
+    }
 
     for (int i = 0; i < m; i++) {
       st = new StringTokenizer(br.readLine());
-      int u = Integer.parseInt(st.nextToken());
-      int v = Integer.parseInt(st.nextToken());
-      int w = Integer.parseInt(st.nextToken());
-      edges[i][0] = u;
-      edges[i][1] = v;
-      edges[i][2] = w;
+      int n1 = Integer.parseInt(st.nextToken());
+      int n2 = Integer.parseInt(st.nextToken());
+      int d = Integer.parseInt(st.nextToken());
+      paths[i][0] = n1;
+      paths[i][1] = n2;
+      paths[i][2] = d;
 
-      graph.get(u).add(new Node(v, w));
-      graph.get(v).add(new Node(u, w));
+      graph.get(n1).add(new Node(n2, d));
+      graph.get(n2).add(new Node(n1, d));
     }
 
-    int[] dist1 = dijkstra(1, -1, -1);
-    int[] dist2 = dijkstra(n, -1, -1);
+    int[] dist1 = dijkstra(1, -1, -1); // 1 -> i 까지 최단거리
+    int[] dist2 = dijkstra(n, -1, -1); // n -> i 까지 최단거리
     int base = dist1[n];
-    int maxDelay = -1;
 
-    for (int[] e : edges) {
-      int u = e[0], v = e[1], w = e[2];
+    int _max = -1;
+    for (int[] p : paths) {
+      int n1 = p[0];
+      int n2 = p[1];
+      int d = p[2];
 
-      // ✅ 변경 ⑦ : 최단경로 포함 조건에서 dist1/dist2 존재 검증 추가 (INF 방지)
-      if ((dist1[u] != INF && dist2[v] != INF && dist1[u] + w + dist2[v] == base)
-          || (dist1[v] != INF && dist2[u] != INF && dist1[v] + w + dist2[u] == base)) {
-
-        int[] newDist = dijkstra(1, u, v);
-        if (newDist[n] >= INF) {
+      if ((dist1[n1] != INF && dist2[n2] != INF && dist1[n1] + d + dist2[n2] == base)
+          || (dist1[n2] != INF && dist2[n1] != INF && dist1[n2] + d + dist2[n1] == base)) {
+        int[] tmpDist = dijkstra(1, n1, n2);
+        if (tmpDist[n] >= INF) {
           System.out.println(-1);
           return;
         }
-        maxDelay = Math.max(maxDelay, newDist[n] - base);
+        _max = Math.max(_max, tmpDist[n] - dist1[n]);
       }
     }
+    System.out.println(_max);
+  }
+}
 
-    System.out.println(maxDelay);
+
+class Node implements Comparable<Node> {
+  int v;
+  int c;
+
+  Node(int v, int c) {
+    this.v = v;
+    this.c = c;
+  }
+
+  @Override
+  public int compareTo(Node o) {
+    return this.c - o.c;
   }
 }
